@@ -1,0 +1,45 @@
+import { AbstractControl, ValidationErrors, FormGroup  } from "@angular/forms"
+
+export const PasswordStrengthValidator = function (control: AbstractControl): ValidationErrors | null {
+
+  console.log(control);
+  
+
+  let value: string = control.value || '';
+
+  if (!value) {
+    return null
+  }
+  let upperCaseCharacters = /[A-Z]+/g
+  if (upperCaseCharacters.test(value) === false) {
+    return { passwordStrength: `text has to contine Upper case characters,current value ${value}` };
+  }
+
+  let lowerCaseCharacters = /[a-z]+/g
+  if (lowerCaseCharacters.test(value) === false) {
+    return { passwordStrength: `text has to contine lower case characters,current value ${value}` };
+  }
+
+
+  let numberCharacters = /[0-9]+/g
+  if (numberCharacters.test(value) === false) {
+    return { passwordStrength: `text has to contine number characters,current value ${value}` };
+  }
+
+  let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/
+  if (specialCharacters.test(value) === false) {
+    return { passwordStrength: `text has to contine special character,current value ${value}` };
+  }
+  return null;
+}
+
+export const checkPassword = function (control: AbstractControl): ValidationErrors | null {
+  let value: string = control.value || '';
+  if (!value) {
+    return null
+  }
+  if (control.parent.value.password !== control.value){
+    return { checkPassword: `Not matching password field,current value ${value}` };
+  }
+  return null;
+}
